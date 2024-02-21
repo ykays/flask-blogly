@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
-    {% block title %} Add new user {% endblock %}
+    {% block title %} User details {% endblock %}
     {% block content %}
     
     <div class = 'user-details'>
         <img src="{{user.image_url}}">
-        <section>
-            <h2>{{user.full_name}}</h2>
-            <a href="/users/{{user.id}}/edit" id="edit">Edit</a>
-            <a href="/users/{{user.id}}/delete" id="delete">Delete</a>
-        </section>
+        <section class="user_posts">
+            <h2 class="user-name">{{user.full_name}}</h2>
+            <a href="/users/{{user.id}}/edit" class="edit">Edit</a>
+            <a href="/users/{{user.id}}/delete" class="delete">Delete</a>
+            <h2 class="user-posts">Posts</h2>
+            <ul>
+            {% for post in posts%}
+                <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
+            {% endfor %}
+            </ul>
+            <a href="/users/{{user.id}}/post/new" class="edit">Add Post</a>
+        </section>      
+      
     </div>
 
     {% endblock %}

@@ -10,7 +10,7 @@
         <input type="text" name="last_name" id="last_name" value={{user.last_name}}>
         <label for="image">Image URL</label>
         <input type="text" name="image" id="image" value={{user.image_url}}>
-        <a href="/users/{{user.id}}" id="cancel">Cancel</a>
+        <a href="/users/{{user.id}}" class="cancel">Cancel</a>
         <button>Save</button>
     </form>
     {% endblock %}

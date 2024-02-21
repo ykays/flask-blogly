@@ -44,7 +44,7 @@ form {
     background-color: dimgray;
   }
 
-  #edit, #delete, #cancel, #add {
+  .edit, .delete, .cancel, .add {
     width: 4rem;
     margin-top: 10px ;
     border: none;
@@ -64,15 +64,15 @@ form {
     text-decoration: none;
   }
 
-  #edit {
+  .edit {
     background-color: blue;
   }
 
-  #delete {
+  .delete {
     background-color: red;
   }
 
-  #cancel, #add{
+  .cancel, .add{
     background-color: grey;
   }
 
@@ -85,8 +85,23 @@ form {
     display: flex;
     align-items:center;
   }
-
-  h2 {
-    font-size: 3rem;
+  .user_posts {
+    height: 200px;
+    margin-left: 10px;
   }
+ 
+  .post-content{
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 2px;
+    padding: 8px;
+    width: 300px;
+    box-shadow: 0 0 3px 1px lightgray;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .by_name {
+    font-style: italic;
+  }
+  
 
