@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+    {% block title %} Add new user {% endblock %}
+    {% block content %}
+    
+    <div class = 'user-details'>
+        <img src="{{user.image_url}}">
+        <section>
+            <h2>{{user.full_name}}</h2>
+            <a href="/users/{{user.id}}/edit" id="edit">Edit</a>
+            <a href="/users/{{user.id}}/delete" id="delete">Delete</a>
+        </section>
+    </div>
+
+    {% endblock %}
