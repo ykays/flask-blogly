@@ -1,12 +1,10 @@
-from models import User, db, Post
+from models import User, db, Post, Tag, PostTag
 from app import app
 
 #Create all tables
 db.drop_all()
 db.create_all()
 
-#If table isn't empty, empty it
-User.query.delete()
 
 # Add new users
 
@@ -29,3 +27,20 @@ p4 = Post(title='Mountains', content='These are the best mountains in the world'
 
 db.session.add_all([p1, p2, p3, p4])
 db.session.commit()
+
+t1 = Tag(name='fun')
+t2 = Tag(name='sad')
+t3 = Tag(name='facepalm')
+t4 = Tag(name='yolo')
+
+db.session.add_all([t1, t2, t3, t4])
+db.session.commit()
+
+tp1 = PostTag(post_id=1 ,tag_id=1)
+tp2 = PostTag(post_id=1,tag_id=2)
+tp3 = PostTag(post_id=2,tag_id=4)
+tp4 = PostTag(post_id=3 ,tag_id=3)
+
+db.session.add_all([tp1, tp2, tp3, tp4])
+db.session.commit()
+

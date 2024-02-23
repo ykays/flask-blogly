@@ -7,6 +7,19 @@
         <input type="text" name="title" id="title" value={{post.title}}>
         <label for="content">Content</label>
         <textarea name="content" id="content" class="post-content">{{post.content}}</textarea>
+
+        <section class="checkbox-section">  
+            {% for tag in all_tags %}
+                {% if tag in checked_tags %}
+                <input type="checkbox" id={{tag.id}} name='tag' value={{tag.id}} checked class="checkbox">
+                {% else %}
+                <input type="checkbox" id={{tag.id}} name='tag' value={{tag.id}} class="checkbox">
+                {% endif %}
+            <label for={{tag.id}} class="checkbox-label">{{tag.name}} </label>
+                
+            {% endfor %}
+            </section>
+
         <a href="/users/{{post.user.id}}" class="cancel">Cancel</a>
         <button>Edit</button>
     </form>

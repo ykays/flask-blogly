@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from app import app
-from models import db, User, Post
+from models import db, User, Post, Tag, PostTag
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_test'
 app.config['SQLALCHEMY_ECHO'] = False
@@ -18,6 +18,8 @@ class UserViewsTestCase(TestCase):
 
     def setUp(self):
         """Add sample user."""
+        PostTag.query.delete()
+        Tag.query.delete()
         Post.query.delete()
         User.query.delete()
         
@@ -30,19 +32,38 @@ class UserViewsTestCase(TestCase):
         post = Post(title='First Post', content='My Very first post', user_id=self.user_id)
         db.session.add(post)
         db.session.commit()
-
-        
         self.post_id = post.id
+
+        tag = Tag(name='funny-tag')
+        db.session.add(tag)
+        db.session.commit()
+        self.tag_id = tag.id
+
+        post_tag = PostTag(post_id=self.post_id ,tag_id=self.tag_id )
+        db.session.add(post_tag)
+        db.session.commit()
+        self.post_tag_post_id = post_tag.post_id
+        self.post_tag_tag_id = post_tag.tag_id
 
     def tearDown(self):
         """Clean up any fouled transaction."""
 
         db.session.rollback()
-    
+    def test_home(self):
+        """Testing home page with most recent posts"""
+        with app.test_client() as client:
+            resp = client.get('/')
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('First Post', html)
+            self.assertIn('My Very first post', html)
+            self.assertIn('funny-tag', html)
+
     def test_list_users(self):
         """Test the list of all users"""
         with app.test_client() as client:
-            resp = client.get("/", follow_redirects=True)
+            resp = client.get("/users")
             html = resp.get_data(as_text=True)
 
             self.assertEqual(resp.status_code, 200)
@@ -107,6 +128,7 @@ class UserViewsTestCase(TestCase):
             self.assertIn('My Very first post', html)
             self.assertIn('First Post', html)
             self.assertIn('Anna Smith', html)
+            self.assertIn('funny-tag', html)
     
     def test_post_delete(self):
         """Testing deleting post"""
@@ -126,5 +148,54 @@ class UserViewsTestCase(TestCase):
 
             self.assertEqual(resp.status_code, 200)
             self.assertIn('My edited post', html)
-            self.assertIn('Content of edited post', html)     
+            self.assertIn('Content of edited post', html)
+
+    def test_show_tags(self):
+        """Testing show all tags page"""
+        with app.test_client() as client:
+            resp = client.get('/tags')
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('funny-tag', html) 
+
+    def test_show_single_tag_details(self):
+        """Testing individual tag details page"""
+        with app.test_client() as client:
+            resp = client.get(f'/tags/{self.tag_id}')
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('funny-tag', html)
+            self.assertIn('First Post', html)
+
+    def test_add_new_tag(self):
+        """Testing adding new tag"""
+        with app.test_client() as client:
+            d = {'tag': 'family-time'} 
+            resp = client.post('/tags/new', data=d, follow_redirects=True) 
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('family-time', html)  
+    
+    def test_editing_tag(self):
+        """Testing editing tag"""
+        with app.test_client() as client:
+            d = {'tag': 'veryFunny'}
+            resp = client.post(f'/tags/{self.tag_id}/edit', data=d, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('veryFunny', html)
+    
+    def test_deleting_tag(self):
+        """Testing deleting tag"""
+        with app.test_client() as client:
+            resp = client.get(f'/tags/{self.tag_id}/delete', follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertNotIn('funny-tag', html)
+
 

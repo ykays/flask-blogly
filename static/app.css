@@ -1,3 +1,22 @@
+.navbar {
+  background-color: black;
+  overflow: hidden;
+}
+
+.navbar a {
+  float: left;
+  color: white;
+  text-align:center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background-color: white;
+  color: black
+}
+
 form {
     display: flex;
     align-items: baseline;
@@ -102,6 +121,51 @@ form {
 
   .by_name {
     font-style: italic;
+  }
+
+  .ptags {
+    font-weight: bold;
+  }
+
+  .tags{
+    
+    margin-top: 5px ;
+    border: none;
+    border-radius: 2px;
+    padding: 4px;
+    font-size: 0.55rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    background-color: blue;
+  }
+
+  .tags a:visited {
+    color: white
+  }
+
+  .tags a:link {
+    color: white
+  }
+
+  .checkbox {
+    width: 10px;
+    margin:0
+  }
+
+  .checkbox-section{
+    width:300px;
+    vertical-align:middle  ;
+    
+  }
+
+  .checkbox-label{
+    width: 285px;
+    margin:0
+
   }
   
 

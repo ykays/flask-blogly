@@ -4,6 +4,11 @@
     <h1>{{post.title}}</h1>
     <p>{{post.content}}</p>
     <p>By <span class ='by_name'>{{post.user.full_name}}</span></p>
+    <p class ='ptags'> Tags: 
+    {% for tag in tags %}
+    <span class="tags"><a href="/tags/{{tag.id}}">{{tag.name}}</a></span>
+    {% endfor %}
+    </p>
     <a href="/users/{{post.user.id}}" class="cancel">Cancel</a>
     <a href="/posts/{{post.id}}/edit" class="edit">Edit</a>
     <a href="/posts/{{post.id}}/delete" class="delete">Delete</a>
